@@ -1,0 +1,54 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class CreateOrganization {
+
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chromedriver", ".//ChromeDriver1//chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://staging.grydapp.com/admin");
+		
+		
+		WebElement adminEmail = driver.findElement(By.id("admin_user_email"));
+		String email= "admin@grydapp.com";
+		adminEmail.sendKeys(email);
+		
+		WebElement adminPwd=driver.findElement(By.id("admin_user_password"));
+		String pwd = "password";
+		adminPwd.sendKeys(pwd);
+		
+		driver.findElement(By.cssSelector("input[value ='Login']")).click();
+		
+		//Create organization
+		
+		driver.findElement(By.linkText("New Organization")).click();
+		driver.findElement(By.id("organization_name")).sendKeys("Auto organization");
+		driver.findElement(By.cssSelector("input[id = 'organization_website']")).sendKeys("www.demo1.com");
+		driver.findElement(By.name("organization[description]")).sendKeys("Test the automated organization");
+		
+		//dropdown
+		
+		WebElement country = driver.findElement(By.id("organization_country"));
+		Select slCountry= new Select(country);
+		slCountry.selectByValue("CA");
+		
+		WebElement loginType= driver.findElement(By.name("organization[login_type]"));
+		Select slLoginType = new Select(loginType);
+		slLoginType.selectByVisibleText("Saml");
+		
+		WebElement type = driver.findElement(By.id("organization_relation"));
+		Select slType = new Select(type);
+		slType.selectByIndex(1);
+		
+		driver.findElement(By.cssSelector("input[value = 'Create Organization']")).click();
+		
+
+	}
+
+}
